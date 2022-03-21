@@ -50,23 +50,23 @@ function Confirm-azureadConnection
 		
 		try
 		{
-			#$userName = Read-Host -Prompt "Enter UserName" 
-			#$SecurePassword = Read-Host -Prompt "Enter password" -AsSecureString
-			#$credential = New-Object System.Management.Automation.PSCredential ($username,$SecurePassword)
-			$mycreds = Get-Credential
-			Connect-AzureAD -Credential $mycreds
-			Write-Output "Connection Established."
-			$authenticated = $true
-			New-StoredCredential -Target $Target -Credentials $mycreds
-			Write-Host "`nredentials Saved"
-			
+			$newCreds = Get-Credential
+			Connect-AzureAD -Credentials $newCreds
+			if (-not $Error)
+			{
+				$authenticated = $true
+				New-StoredCredential -Target $Target -Credentials $newCreds
+				Write-Host "Credentials Saved"
+			}
 		}
 		catch
 		{
-			Write-Host -ForegroundColor Red -Object "Invalid Credentials`n" -Separator $Separator -BackgroundColor Black -NoNewline
+			
+			Write-Host -ForegroundColor Red -Object "Invalid Credentials" -Separator $Separator -BackgroundColor Black -NoNewline
 		}
 		
 	}
 }
 
 
+Confirm-pnpConnection -Target "CDA" -Url https://convdistassoc.sharepoint.com
