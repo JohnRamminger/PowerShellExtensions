@@ -73,5 +73,3 @@ function Confirm-pnpConnection
 	}
 }
 
-
-Confirm-pnpConnection -Target "CDA" -Url https://convdistassoc.sharepoint.com
